@@ -1,0 +1,10 @@
+header:
+  version: 11
+
+includes:
+  - base.yml
+
+machine: qemuarm64
+distro: poky
+target:
+  - core-image-minimal

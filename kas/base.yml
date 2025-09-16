@@ -1,0 +1,81 @@
+header:
+  version: 11
+
+repos:
+  poky:
+    url: https://git.yoctoproject.org/poky
+    branch: scarthgap
+    layers:
+      meta:
+      meta-poky:
+      meta-yocto-bsp:
+
+  meta-openembedded:
+    url: https://github.com/openembedded/meta-openembedded.git
+    branch: scarthgap
+    layers:
+      meta-oe:
+      meta-python:
+      meta-networking:
+      meta-multimedia:
+
+  meta-raspberrypi:
+    url: https://github.com/agherzan/meta-raspberrypi.git
+    branch: scarthgap
+    layers:
+      meta-raspberrypi:
+
+  # Optional if you use RAUC
+  meta-rauc:
+    url: https://github.com/rauc/meta-rauc.git
+    branch: scarthgap
+    layers:
+      meta-rauc:
+
+  # Your local custom layers (no URL, just relative paths)
+  meta-ppe-distro:
+    path: meta-ppe-distro
+    layers:
+      meta-ppe-distro:
+  meta-ppe-bsp:
+    path: meta-ppe-bsp
+    layers:
+      meta-ppe-bsp:
+  meta-ppe-middleware:
+    path: meta-ppe-middleware
+    layers:
+      meta-ppe-middleware:
+  meta-ppe-ml:
+    path: meta-ppe-ml
+    layers:
+      meta-ppe-ml:
+  meta-ppe-app:
+    path: meta-ppe-app
+    layers:
+      meta-ppe-app:
+  meta-ppe-coreiot:
+    path: meta-ppe-coreiot
+    layers:
+      meta-ppe-coreiot:
+  meta-ppe-observability:
+    path: meta-ppe-observability
+    layers:
+      meta-ppe-observability:
+  meta-ppe-update:
+    path: meta-ppe-update
+    layers:
+      meta-ppe-update:
+  meta-ppe-ci:
+    path: meta-ppe-ci
+    layers:
+      meta-ppe-ci:
+
+local_conf_header:
+  caches: |
+    BB_NUMBER_THREADS ?= "${@os.environ.get('BB_NUMBER_THREADS','8')}"
+    PARALLEL_MAKE ?= "${@'-j' + os.environ.get('BB_NUMBER_THREADS','8')}"
+    DL_DIR ?= "${@os.environ.get('DL_DIR', '${TOPDIR}/../downloads')}"
+    SSTATE_DIR ?= "${@os.environ.get('SSTATE_DIR', '${TOPDIR}/../sstate-cache')}"
+    PACKAGE_CLASSES ?= "package_rpm"
+    INIT_MANAGER = "systemd"
+    INHERIT += "rm_work"

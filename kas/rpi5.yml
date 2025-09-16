@@ -1,0 +1,10 @@
+header:
+  version: 11
+
+includes:
+  - base.yml
+
+machine: raspberrypi5        # or your derivative e.g. raspberrypi5-ppe
+distro: ppe                  # provided by your meta-ppe-distro/conf/distro/ppe.conf
+target:
+  - ppe-image-dev            # you can override with --target later if needed
