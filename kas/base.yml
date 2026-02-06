@@ -74,8 +74,8 @@ local_conf_header:
   caches: |
     BB_NUMBER_THREADS ?= "${@os.environ.get('BB_NUMBER_THREADS','8')}"
     PARALLEL_MAKE ?= "${@'-j' + os.environ.get('BB_NUMBER_THREADS','8')}"
-    DL_DIR ?= "${@os.environ.get('DL_DIR', '${TOPDIR}/../downloads')}"
-    SSTATE_DIR ?= "${@os.environ.get('SSTATE_DIR', '${TOPDIR}/../sstate-cache')}"
+    DL_DIR ?= "${TOPDIR}/../caches/downloads"
+    SSTATE_DIR ?= "${TOPDIR}/../caches/sstate-cache"
     PACKAGE_CLASSES ?= "package_rpm"
     INIT_MANAGER = "systemd"
     INHERIT += "rm_work"

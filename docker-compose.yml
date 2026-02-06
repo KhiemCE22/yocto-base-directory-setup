@@ -1,4 +1,7 @@
-version: "3.8"
+volumes:
+  yocto_caches:
+  yocto_build:
+  yocto-src:
 
 services:
   yocto:
@@ -6,8 +9,8 @@ services:
       context: .
       dockerfile: .devcontainer/Dockerfile
       args:
-        USER_ID: ${UID:-1000}
-        GROUP_ID: ${GID:-1000}
+        USER_ID: "1000"
+        GROUP_ID: "1000"
     privileged: true           # helpful for WIC/loop devices; remove if not needed
     shm_size: "2g"
     ulimits:
@@ -15,11 +18,14 @@ services:
         soft: 1048576
         hard: 1048576
     volumes:
-      - .:/workspaces/yocto-ppe-workspace
-      - ./downloads:/downloads
-      - ./sstate-cache:/sstate-cache
+    # Mount working dir (assuming you start the container from the root of your Yocto workspace)
+      - yocto-src:/home/yocto/ws/yocto-ppe-workspace
+    # Mount downloads and sstate-cache to persist between container runs (using volume)
+      -  yocto_build:/home/yocto/ws/build
+      -  yocto_caches:/home/yocto/ws/caches
     environment:
-      DL_DIR: /downloads
-      SSTATE_DIR: /sstate-cache
       BB_NUMBER_THREADS: ${BB_NUMBER_THREADS:-8}
       PARALLEL_MAKE: ${PARALLEL_MAKE:--j8}
+    entrypoint: []                 # xoá wrapper entrypoint
+    command: [ "bash", "-lc", "/usr/local/bin/seed-volume.sh && sleep infinity" ]
+    user: "1000:1000"              # khớp với user 'yocto'

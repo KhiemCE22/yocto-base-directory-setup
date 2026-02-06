@@ -22,11 +22,25 @@ RUN groupadd -g ${GROUP_ID} ${USERNAME} \
   && usermod -aG sudo ${USERNAME} \
   && echo "${USERNAME} ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/90-yocto-nopasswd
 
-# Optional: kas for declarative builds
-RUN pip3 install --no-cache-dir kas
+# Setup workspace
+COPY . /opt/seed/yocto-ppe-workspace
+RUN chown -R yocto:yocto /opt/seed
+
+# copy seed volume 
+COPY .devcontainer/seed-volume.sh /usr/local/bin/seed-volume.sh
+RUN chmod +x /usr/local/bin/seed-volume.sh
+
+RUN mkdir -p /home/${USERNAME}/ws/yocto-ppe-workspace \
+            /home/${USERNAME}/ws/build \
+            /home/${USERNAME}/ws/caches 
+          
+RUN chown -R ${USERNAME}:${USERNAME} /home/${USERNAME}/ws/yocto-ppe-workspace \
+            /home/${USERNAME}/ws/build \
+            /home/${USERNAME}/ws/caches
+
 
 # QoL
 RUN git config --system core.autocrlf false
 
 USER ${USERNAME}
-WORKDIR /workspaces/yocto-ppe-workspace
+WORKDIR /home/${USERNAME}

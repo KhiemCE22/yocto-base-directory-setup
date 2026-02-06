@@ -1,0 +1,22 @@
+header:
+  version: 11
+
+  includes:
+    - base.yml
+
+# Chạy 64-bit để thống nhất với Pi 5
+machine: raspberrypi3-64
+# Nếu bạn đã có distro "ppe" như rpi5.yml thì giữ nguyên; còn chưa có thì dùng poky
+distro: ppe
+
+target:
+  - ppe-image-dev   # hoặc ppe-image-prod / core-image-base... tùy bạn
+
+# (Tùy chọn) đính kèm vài cấu hình cho Pi 3
+local_conf_header:
+  rpi3: |
+    ENABLE_UART = "1"
+    GPU_MEM = "64"
+    # Nếu dùng camera CSI (IMX219 chẳng hạn) thì bật overlay:
+    # RPI_KERNEL_DEVICETREE_OVERLAYS += " overlays/imx219.dtbo "
+    # Nếu test bằng UVC USB camera thì không cần overlay.

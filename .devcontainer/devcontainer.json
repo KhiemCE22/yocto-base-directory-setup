@@ -4,8 +4,10 @@
     "../docker-compose.yml"
   ],
   "service": "yocto",
-  "workspaceFolder": "/workspaces/yocto-ppe-workspace",
+  "workspaceFolder": "/home/yocto/ws/yocto-ppe-workspace",
+
   "remoteUser": "yocto",
+
   "customizations": {
     "vscode": {
       "extensions": [
@@ -16,14 +18,9 @@
       ]
     }
   },
-  "postCreateCommand": "git config --global --add safe.directory /workspaces/yocto-ppe-workspace",
-  "mounts": [
-    "source=${localWorkspaceFolder}/downloads,target=/downloads,type=bind",
-    "source=${localWorkspaceFolder}/sstate-cache,target=/sstate-cache,type=bind"
-  ],
+
+
   "containerEnv": {
-    "DL_DIR": "/downloads",
-    "SSTATE_DIR": "/sstate-cache",
     "BB_NUMBER_THREADS": "8",
     "PARALLEL_MAKE": "-j8"
   }
