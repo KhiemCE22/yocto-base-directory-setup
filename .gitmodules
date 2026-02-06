@@ -1,0 +1,27 @@
+[submodule "poky"]
+	path = poky
+	url = https://github.com/yoctoproject/poky.git
+[submodule "meta-openembedded"]
+	path = meta-openembedded
+	url = https://github.com/openembedded/meta-openembedded
+[submodule "meta-raspberrypi"]
+	path = meta-raspberrypi
+	url = https://github.com/agherzan/meta-raspberrypi.git
+[submodule "meta-rauc"]
+	path = meta-rauc
+	url = https://github.com/rauc/meta-rauc
+[submodule "meta-onnxruntime"]
+	path = meta-onnxruntime
+	url = https://github.com/KhiemCE22/meta-onnxruntime
+[submodule "meta-ppe-app"]
+	path = meta-ppe-app
+	url = https://github.com/KhiemCE22/meta-ppe-app
+[submodule "meta-ppe-lite"]
+	path = meta-ppe-lite
+	url = https://github.com/KhiemCE22/meta-ppe-lite
+[submodule "meta-ppe-middleware"]
+	path = meta-ppe-middleware
+	url = https://github.com/KhiemCE22/meta-ppe-middleware
+[submodule "meta-observability"]
+	path = meta-observability
+	url = https://github.com/KhiemCE22/observability-based-layer

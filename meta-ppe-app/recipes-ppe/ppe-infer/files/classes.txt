@@ -1,7 +1,0 @@
-blur_clothes
-blur_head
-head
-helmet
-person
-safety_clothes
-self_clothes
