@@ -1,0 +1,17 @@
+From 5b69f5780e79616f1887f91f69242588f2b4e16b Mon Sep 17 00:00:00 2001
+From: KhiemCE22 <KhiemCE22>
+Date: Mon, 20 Apr 2026 02:36:27 +0000
+Subject: [PATCH] Remove ncnn from deps to use system provider
+
+---
+ deps/ncnn | 1 -
+ 1 file changed, 1 deletion(-)
+ delete mode 160000 deps/ncnn
+
+diff --git a/deps/ncnn b/deps/ncnn
+deleted file mode 160000
+index bfcdd06..0000000
+--- a/deps/ncnn
++++ /dev/null
+@@ -1 +0,0 @@
+-Subproject commit bfcdd0633e11febcb96eaabd62e97a6bdce89b0c
