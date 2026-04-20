@@ -21,7 +21,7 @@
 
 
   "containerEnv": {
-    "BB_NUMBER_THREADS": "8",
-    "PARALLEL_MAKE": "-j8"
+    "BB_NUMBER_THREADS": "3",
+    "PARALLEL_MAKE": "-j2"
   }
 }
