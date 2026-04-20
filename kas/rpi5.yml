@@ -1,10 +1,62 @@
 header:
-  version: 11
+  version: 14
 
-includes:
-  - base.yml
-
-machine: raspberrypi5        # or your derivative e.g. raspberrypi5-ppe
-distro: ppe                  # provided by your meta-ppe-distro/conf/distro/ppe.conf
+machine: raspberrypi5
+distro: poky
 target:
-  - ppe-image-dev            # you can override with --target later if needed
+  - core-image-minimal
+
+repos:
+  poky:
+    url: "https://git.yoctoproject.org/git/poky"
+    refspec: scarthgap
+    layers:
+      meta:
+      meta-poky:
+      meta-yocto-bsp:
+
+  meta-openembedded:
+    url: "https://git.openembedded.org/meta-openembedded"
+    refspec: scarthgap
+    layers:
+      meta-oe:
+      meta-python:
+      meta-multimedia:
+      meta-networking:
+
+  meta-raspberrypi:
+    url: "https://github.com/raspberrypi/meta-raspberrypi"
+    refspec: scarthgap
+
+local_conf_header:
+  storage: |
+    DL_DIR = "/home/yocto/ws/caches/downloads"
+    SSTATE_DIR = "/home/yocto/ws/caches/sstate-cache"
+    BB_NUMBER_THREADS = "3"
+    PARALLEL_MAKE = "-j 3"
+    INHERIT += "rm_work"
+
+  # CHIẾN LƯỢC TỐI ƯU HEADLESS
+  optimization: |
+    # Loại bỏ hoàn toàn các thành phần đồ họa ở cấp độ hệ điều hành
+    DISTRO_FEATURES:remove = "x11 wayland vulkan directfb"
+    # Tập trung vào hiệu năng tính toán (Performance Governor)
+    GOVERNOR = "performance"
+
+  rpi_config: |
+    ENABLE_UART = "1"
+    # Tắt màn hình chào và log khởi động để tăng tốc boot
+    DISABLE_SPLASH = "1"
+    BOOT_DELAY = "0"
+    # Giới hạn RAM cho GPU xuống mức tối thiểu vì không dùng hiển thị
+    GPU_MEM = "32"
+    # Không dùng camera CSI, không cần nạp overlay
+    IMAGE_FSTYPES = "wic.bz2"
+
+  ppe_packages: |
+    # Các gói bổ trợ cho IP Camera (RTSP)
+    IMAGE_INSTALL:append = " edgevisionrt opencv htop"
+    # Quan trọng: Cần plugin rtspsrc để đọc stream từ Camera IP
+    IMAGE_INSTALL:append = " gstreamer1.0-plugins-good gstreamer1.0-plugins-bad gstreamer1.0-libav"
+    # Công cụ mạng để kiểm tra kết nối với Camera IP
+    IMAGE_INSTALL:append = " iproute2 iputils tcpdump"

@@ -1,10 +1,48 @@
 header:
-  version: 11
+  version: 14
 
-includes:
-  - base.yml
-
+# Sử dụng máy ảo ARM64 tiêu chuẩn để đảm bảo độ ổn định cao nhất trên QEMU
 machine: qemuarm64
 distro: poky
 target:
   - core-image-minimal
+
+repos:
+  poky:
+    url: "https://git.yoctoproject.org/git/poky"
+    refspec: scarthgap
+    layers:
+      meta:
+      meta-poky:
+      meta-yocto-bsp:
+
+  meta-openembedded:
+    url: "https://git.openembedded.org/meta-openembedded"
+    refspec: scarthgap
+    layers:
+      meta-oe:
+      meta-python:
+      meta-multimedia:
+      meta-networking:
+
+local_conf_header:
+  # Cấu hình lưu trữ và tài nguyên
+  storage: |
+    # Trỏ về thư mục caches cũ của bạn để tiết kiệm thời gian
+    DL_DIR = "/home/yocto/ws/caches/downloads"
+    SSTATE_DIR = "/home/yocto/ws/caches/sstate-cache"
+    
+    BB_NUMBER_THREADS = "3"
+    PARALLEL_MAKE = "-j 3"
+    
+    # Dọn dẹp dung lượng sau khi build xong từng package
+    INHERIT += "rm_work"
+
+  system: |
+    INIT_MANAGER = "systemd"
+    # Chấp nhận bản quyền để cài đặt các codec multimedia
+    LICENSE_FLAGS_ACCEPTED = "commercial synaptics-killswitch"
+
+  ppe_packages: |
+    # Cài đặt các gói cần thiết từ repo EdgeVisionRT
+    IMAGE_INSTALL:append = " opencv htop"
